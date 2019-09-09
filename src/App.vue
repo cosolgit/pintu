@@ -1,29 +1,40 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <d-puzzle v-bind="puzzleConfig[level]" @next="handleNext"/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+<script>
+  import DPuzzle from './Puzzle'
+  export default {
+    components:{
+      DPuzzle
+    },
+      data(){
+        return{
+            level:0,
+            puzzleConfig:[
+              {row:2,col:2,img:'../puzzleimg/4.png'},
+              {row:3,col:3,img:'../puzzleimg/4.png'},
+            ]
+        }
+      },
+      methods:{
+          handleNext(){
+            if(++this.level==this.puzzleConfig.length){
+             const answerFlag= window.confirm('已经是最后一关了,重新开始吗');
+             if(answerFlag){
+               this.level=0;
+             }
+            }
+
+          }
+      }
   }
+</script>
+<style lang="scss">
+*{
+  margin:0;
+  padding:0
 }
 </style>
